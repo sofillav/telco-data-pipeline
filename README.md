@@ -182,10 +182,23 @@ Future stages will include cleaning (Silver) and aggregating/analyzing the data 
 
 ## Quick Start
 
+1. Clone the repo:
+
 ```bash
 git clone https://github.com/sofillav/qversity-data-2025-montevideo-sofiallavayol.git
 cd qversity-data-2025-montevideo-sofiallavayol
-docker compose up
+```
+
+2. Give the data directory proper permissions. This step ensures Airflow can write downloaded files inside the container.:
+
+```bash
+chmod -R 777 data
+```
+
+3. Start the pipeline environment:
+
+```bash
+docker compose up -d
 ```
 
 ## Run pipeline
