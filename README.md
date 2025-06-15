@@ -158,3 +158,46 @@ docker compose down -v
 docker compose down --rmi all
 ```
 
+
+
+
+
+
+
+## Overview
+
+This project implements a full ELT data pipeline following the Medallion Architecture (bronze, silver, gold), orchestrated using Apache Airflow, transformed with dbt, and stored in PostgreSQL.
+
+At this stage, the pipeline performs the following:
+
+- Downloads a JSON dataset from a public S3 bucket.
+- Loads the raw data into a PostgreSQL database under the `bronze` schema for further processing.
+
+Future stages will include cleaning (Silver) and aggregating/analyzing the data (Gold).
+
+## Participant
+
+- **Name**: Sofía Llavayol
+- **Email**: so.llavayol@gmail.com
+
+## Quick Start
+
+```bash
+git clone https://github.com/thisisqubika/qversity-data-final-project-2025.git
+cd qversity-data-final-project-2025
+docker compose up
+```
+
+## Run pipeline
+
+Visit http://localhost:8080 and trigger the `bronze_ingest_dag`. From the Airflow UI:
+
+- Locate the DAG named `bronze_ingest_dag`.
+- Trigger it manually.
+- The DAG will:
+   - Download the `mobile_customers_messy_dataset.json` file from the S3 bucket.
+   - Load it into the PostgreSQL database under `bronze.mobile_customers`.
+
+## Run tests
+
+Will be added in later stages.
