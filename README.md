@@ -189,10 +189,11 @@ git clone https://github.com/sofillav/qversity-data-2025-montevideo-sofiallavayo
 cd qversity-data-2025-montevideo-sofiallavayol
 ```
 
-2. Give the data directory proper permissions. This step ensures Airflow can write downloaded files inside the container.:
+2. Give the `data` and `logs` directories the proper permissions so Airflow works correctly:
 
 ```bash
-chmod -R 777 data
+mkdir -p logs
+chmod -R 777 data logs
 ```
 
 3. Start the pipeline environment:
@@ -203,7 +204,7 @@ docker compose up -d
 
 ## Run pipeline
 
-Visit http://localhost:8080 and trigger the `bronze_ingest_dag`. From the Airflow UI:
+Visit http://localhost:8080 (admin/admin) and trigger the `bronze_ingest_dag`. From the Airflow UI:
 
 - Locate the DAG named `bronze_ingest_dag`.
 - Trigger it manually.
