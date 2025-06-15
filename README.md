@@ -183,8 +183,8 @@ Future stages will include cleaning (Silver) and aggregating/analyzing the data 
 ## Quick Start
 
 ```bash
-git clone https://github.com/thisisqubika/qversity-data-final-project-2025.git
-cd qversity-data-final-project-2025
+git clone https://github.com/sofillav/qversity-data-2025-montevideo-sofiallavayol.git
+cd qversity-data-2025-montevideo-sofiallavayol
 docker compose up
 ```
 
