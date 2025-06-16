@@ -18,10 +18,6 @@ clean-targets:
 
 models:
   qversity:
-    # Bronze layer - raw data staging
-    bronze:
-      +materialized: table
-      +schema: bronze
     # Silver layer - cleaned and transformed data
     silver:
       +materialized: table
