@@ -1,0 +1,44 @@
+version: 2
+
+models:
+  - name: silver_mobile_customers
+    description: Flat table with main customer information, extracted from bronze JSON.
+    columns:
+      - name: customer_id
+        description: Unique identifier for each customer
+      - name: first_name
+        description: Customer's first name
+      - name: last_name
+        description: Customer's last name
+      - name: registration_date
+        description: Date when the customer registered (parsed from raw string formats)
+      - name: status
+        description: Customer status (e.g., active, suspended)
+      - name: credit_score
+        description: Numerical credit score of the customer
+
+  - name: silver_payment_history
+    description: Flattened payment history records for each customer, parsed from JSON arrays or strings.
+    columns:
+      - name: customer_id
+        description: Reference to the customer in mobile_customers
+      - name: payment_date
+        description: Date of the payment attempt
+      - name: payment_status
+        description: Status of the payment (e.g., paid, failed)
+      - name: payment_amount
+        description: Payment amount in USD, null if unknown or unparsable
+
+  - name: silver_contracted_services
+    description: One row per customer and contracted service, parsed from arrays or single strings.
+    columns:
+      - name: customer_id
+        description: Reference to the customer in mobile_customers
+      - name: service
+        description: Contracted service by the customer (e.g., SMS, VOICE, INTERNATIONAL)
+
+sources:
+  - name: bronze
+    schema: bronze # The schema where Airflow loads the raw table
+    tables:
+      - name: mobile_customers
