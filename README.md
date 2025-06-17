@@ -210,7 +210,7 @@ Visit http://localhost:8080 (admin/admin) and trigger the `bronze_ingest_dag`. F
 - Trigger it manually.
 - The DAG will:
    - Download the `mobile_customers_messy_dataset.json` file from the S3 bucket.
-   - Load it into the PostgreSQL database under `bronze.mobile_customers`.
+   - Load it into the PostgreSQL database under `bronze.bronze_mobile_customers`.
 
 ## Run tests
 
