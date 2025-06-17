@@ -35,7 +35,7 @@ def load_to_postgres():
 
     cur.execute("""
         CREATE SCHEMA IF NOT EXISTS bronze;
-        CREATE TABLE IF NOT EXISTS bronze.mobile_customers (
+        CREATE TABLE IF NOT EXISTS bronze.bronze_mobile_customers (
             id SERIAL PRIMARY KEY,
             data JSONB,
             ingestion_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -45,7 +45,7 @@ def load_to_postgres():
     for row in data:
         json_row = json.dumps(row)  # Convert Python dictionary to JSON string
         cur.execute(
-            "INSERT INTO bronze.mobile_customers (data) VALUES (%s)",
+            "INSERT INTO bronze.bronze_mobile_customers (data) VALUES (%s)",
             [json_row]
         )
 
