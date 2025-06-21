@@ -168,12 +168,56 @@ docker compose down --rmi all
 
 This project implements a full ELT data pipeline following the Medallion Architecture (bronze, silver, gold), orchestrated using Apache Airflow, transformed with dbt, and stored in PostgreSQL.
 
-At this stage, the pipeline performs the following:
+At the bronze stage, the pipeline performs the following:
 
 - Downloads a JSON dataset from a public S3 bucket.
-- Loads the raw data into a PostgreSQL database under the `bronze` schema for further processing.
+- Loads the raw data into a PostgreSQL database under the `bronze` schema for further processing. The table created is named `bronze_mobile_customers`. This table has 5000 rows of type `jsonb`, each of which cointains the customer's information to be processed.
 
-Future stages will include cleaning (Silver) and aggregating/analyzing the data (Gold).
+Below we develop on the silver and gold stages.
+
+### Silver stage
+
+The Silver layer focuses on cleaning and structuring the raw JSON data from the `bronze.bronze_mobile_customers` table into a set of well-defined and normalized tables, designed for reliable downstream use.
+
+#### Silver tables
+
+This stage produces four tables:
+
+- `silver_mobile_customers`: One row per customer, containing standardized fields such as name, email, operator, plan type, credit score, and more. Customers are uniquely identified by a surrogate key `customer_sk`, formed with the values `customer_id`, `operator`, `first_name` and `last_name` obtained from the raw data. Each customer is also linked to a city via the `city_sk` foreign key referencing the `silver_cities` table.
+
+- `silver_cities`: A list of unique cities extracted from the raw JSON file, each paired with verified latitude, longitude, and ISO country codes. Inconsistent country/city pairs in the raw data were resolved by treating the city as correct and joining to this validated reference table. The raw country is retained as `country_raw` in `silver_mobile_customers`, in case further analysis or reconciliation is needed.
+
+- `silver_payment_history`: Normalized payment history records, with one row per payment. This table handles both structured JSON arrays and string-based representations like `"paid,paid,late,paid"`. Fields include `payment_date`, `status`, and `amount` (null if unknown).
+
+- `silver_contracted_services`: One row per customer and contracted service (DATA, INTERNATIONAL, ROAMING, SMS, VOICE). Handles both structured arrays and comma-separated strings.
+
+#### Data Cleaning Decisions
+
+Some important transformations and cleaning decisions were applied:
+
+- Invalid or inconsistent fields were removed:
+
+   - `record_uuid`, `latitude`, `longitude`, and `customer_id` were excluded from the silver tables due to inconsistencies and low reliability.
+
+   - Instead, we introduced a surrogate key (`customer_sk`) based on a hash of multiple fields (`customer_id`, `operator`, `first_name` and `last_name`) to ensure uniqueness and allow joins.
+
+- Inconsistent city/country pairs in the raw data were resolved by treating the city as correct and matching it to a validated `silver_cities` table containing verified latitude, longitude, and ISO country codes. The original country provided in the raw data was preserved as `country_raw` in `silver_mobile_customers`, ensuring transparency and allowing analysts to explore or reconcile country information if needed.
+
+- Surrogate Keys: Both customers and cities use surrogate keys (`customer_sk`, `city_sk`) for clean relational joins.
+
+- Age filtering: Age values were converted to integers. Values outside the range 0–110 were treated as invalid and set to null. The final dataset includes only reasonable adult ages (between 18–80).
+
+- Standardized text fields: Names, cities, operators, plan types, statuses, and device brands were all normalized via dbt macros. This included trimming spaces, fixing casing, and handling missing values consistently. Although fields like `first_name` and `last_name` are not directly required for business analysis, a lightweight normalization step was applied (removes digits, trims spaces, capitalizes the first letter of each word) to prepare them for potential future use cases (e.g., customer communications, segmentation, or deduplication).
+
+
+#### Macros and Reusability
+
+To promote consistency and not repeat code, a set of reusable macros was created. These handle common normalization tasks: `normalize_city`, `normalize_country`, `normalize_device_brand`, `normalize_hour`, `normalize_name`, `normalize_operator`, `normalize_plan_type`, `normalize_status`.
+
+
+### Gold stage
+
+Future stages will include aggregating/analyzing the data (Gold).
 
 ## Participant
 
