@@ -185,7 +185,7 @@ This stage produces four tables:
 
 - `silver_mobile_customers`: One row per customer, containing standardized fields such as name, email, operator, plan type, credit score, and more. Customers are uniquely identified by a surrogate key `customer_sk`, formed with the values `customer_id`, `operator`, `first_name` and `last_name` obtained from the raw data. Each customer is also linked to a city via the `city_sk` foreign key referencing the `silver_cities` table.
 
-- `silver_cities`: A list of unique cities extracted from the raw JSON file, each paired with verified latitude, longitude, and ISO country codes. Inconsistent country/city pairs in the raw data were resolved by treating the city as correct and joining to this validated reference table. The raw country is retained as `country_raw` in `silver_mobile_customers`, in case further analysis or reconciliation is needed.
+- `silver_cities`: A list of unique cities extracted from the raw JSON file, each paired with verified latitude, longitude, and ISO country codes. Inconsistent country/city pairs in the raw data were resolved by treating the city as correct and joining to this validated reference table.
 
 - `silver_payment_history`: Normalized payment history records, with one row per payment. This table handles both structured JSON arrays and string-based representations like `"paid,paid,late,paid"`. Fields include `payment_date`, `status`, and `amount` (null if unknown).
 
@@ -205,9 +205,13 @@ Some important transformations and cleaning decisions were applied:
 
 - Surrogate Keys: Both customers and cities use surrogate keys (`customer_sk`, `city_sk`) for clean relational joins.
 
-- Age filtering: Age values were converted to integers. Values outside the range 0–110 were treated as invalid and set to null. The final dataset includes only reasonable adult ages (between 18–80).
+- Credit score filtering: The `credit_score` field was cleaned by enforcing a valid range between 300 and 850. Values outside this range were set to null. Out of 5,000 records, only 46 entries had invalid credit scores, so this cleaning affects less than 1% of the data. This step ensures data quality and consistency for downstream analysis.
 
-- Standardized text fields: Names, cities, operators, plan types, statuses, and device brands were all normalized via dbt macros. This included trimming spaces, fixing casing, and handling missing values consistently. Although fields like `first_name` and `last_name` are not directly required for business analysis, a lightweight normalization step was applied (removes digits, trims spaces, capitalizes the first letter of each word) to prepare them for potential future use cases (e.g., customer communications, segmentation, or deduplication).
+- Age filtering: Age values were converted to integers. Values outside the range 0–110 were treated as invalid and set to null. A total of 115 entries had invalid ages, and the final dataset includes only reasonable adult ages between 18 and 80.
+
+- Negative values filtering: fields such as `monthly_data_gb` and `monthly_bill_usd` are espected to be nonnegative numbers.are expected to contain non-negative numbers. Any values below zero were considered invalid and replaced with null. In total, fewer than 70 entries contained negative values across both fields.
+
+- Standardized text fields: Names, cities, operators, plan types, statuses, and device brands were all normalized via dbt macros. This included trimming spaces, fixing casing, and handling missing values consistently. Although fields like `first_name` and `last_name` are not directly required for business analysis, a lightweight normalization step was applied (removes digits, trims spaces, capitalizes the first letter of each word) to prepare them for potential future use cases (e.g., customer communications or deduplication).
 
 
 #### Macros and Reusability

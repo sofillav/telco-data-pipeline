@@ -16,13 +16,13 @@ extracted as (
         -- Normalize last name (same as first name)
         {{ normalize_name("json_data ->> 'last_name'") }} as last_name,
 
-        -- Clean email by trimming, lowercasing; convert empty strings to NULL
+        -- Clean email by trimming, lowercasing; convert empty strings to null
         nullif(lower(trim(json_data ->> 'email')), '') as email,
 
         -- Extract phone number as-is from JSON
         json_data ->> 'phone_number' as phone_number,
         
-        -- Convert age to integer if valid (0-110), else NULL
+        -- Convert age to integer if valid (0-110), else null
         case
             when floor((json_data ->> 'age')::numeric) between 0 and 110
                 then floor((json_data ->> 'age')::numeric)::int
@@ -43,14 +43,14 @@ extracted as (
         -- Normalize plan type to known categories (e.g., control, pospago, prepago)
         {{ normalize_plan_type("json_data ->> 'plan_type'") }} as plan_type,
 
-        -- Convert monthly data allowance to numeric
-        (json_data ->> 'monthly_data_gb')::numeric as monthly_data_gb,
+        -- Convert monthly data allowance to numeric if valid (> 0), else null
+        {{ nonnegative_numeric("json_data ->> 'monthly_data_gb'") }} as monthly_data_gb,
 
-        -- Convert current month data usage to numeric
-        (json_data ->> 'data_usage_current_month')::numeric as data_gb_usage_current_month,
+        -- Convert current month data usage to numeric if valid (> 0), else null
+        {{ nonnegative_numeric("json_data ->> 'data_gb_usage_current_month'") }} as data_gb_usage_current_month,
 
-        -- Convert monthly bill amount to numeric USD value
-        (json_data ->> 'monthly_bill_usd')::numeric as monthly_bill_usd,
+        -- Convert monthly bill amount to numeric USD value if valid (> 0), else null
+        {{ nonnegative_numeric("json_data ->> 'monthly_bill_usd'") }} as monthly_bill_usd,
 
         
         -- Normalize registration date to proper date format
@@ -74,8 +74,12 @@ extracted as (
         -- Convert credit limit to numeric
         (json_data ->> 'credit_limit')::numeric as credit_limit,
 
-        -- Convert credit score to integer
-        (json_data ->> 'credit_score')::int as credit_score
+        -- Convert credit score to integer if valid (300-850), else NULL
+        case
+            when (json_data ->> 'credit_score')::int between 300 and 850
+                then (json_data ->> 'credit_score')::int
+            else null
+        end as credit_score
     from source
 )
 
