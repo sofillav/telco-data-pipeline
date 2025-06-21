@@ -2,43 +2,98 @@ version: 2
 
 models:
   - name: silver_mobile_customers
-    description: Flat table with main customer information, extracted from bronze JSON.
+    description: >
+      Flat table with customer information, extracted and cleaned from raw JSON. 
+      This table contains one row per customer, uniquely identified by the surrogate key,
+      customer_sk. City is linked via city_sk.
     columns:
-      - name: customer_id
-        description: Unique identifier for each customer
+      - name: customer_sk
+        description: Surrogate key
+
       - name: first_name
         description: Customer's first name
       - name: last_name
         description: Customer's last name
+      - name: email
+        description: Customer's email address
+      - name: phone_number
+        description: Customer's phone number
+      - name: age
+        description: Customer's age
+
+      - name: city_sk
+        description: Foreign key referencing silver_cities table
+      - name: country_raw
+        description: Original country extracted from raw JSON. May not be consistent with the customer's city.
+
+      - name: operator
+        description: Mobile operator associated with the customer (Claro, Movistar, Tigo, WOM)
+      - name: plan_type
+        description: Type of mobile plan (control, pospago, prepago)
+      - name: monthly_data_gb
+        description: Monthly data allowance in gigabytes
+      - name: data_gb_usage_current_month
+        description: Data usage in the current month (in GB)
+      - name: monthly_bill_usd
+        description: Monthly bill amount in USD
+
       - name: registration_date
         description: Date when the customer registered (parsed from raw string formats)
+      - name: last_payment_date
+        description: Date of most recent payment
+
       - name: status
-        description: Customer status (e.g., active, suspended)
+        description: Customer status (active, inactive, invalid, suspended, valid)
+
+      - name: device_brand
+        description: Brand of the customer's device (Apple, HUAWEI, Samsung, Xiaomi)
+      - name: device_model
+        description: Model of the customer's device
+
+      - name: credit_limit
+        description: Credit limit assigned to the customer
       - name: credit_score
         description: Numerical credit score of the customer
 
   - name: silver_payment_history
     description: Flattened payment history records for each customer, parsed from JSON arrays or strings.
     columns:
-      - name: customer_id
-        description: Reference to the customer in mobile_customers
+      - name: customer_sk
+        description: Reference to the customer in silver_mobile_customers
       - name: payment_date
         description: Date of the payment attempt
       - name: payment_status
-        description: Status of the payment (e.g., paid, failed)
+        description: Status of the payment (failed, late, paid, pending)
       - name: payment_amount
         description: Payment amount in USD, null if unknown or unparsable
 
   - name: silver_contracted_services
-    description: One row per customer and contracted service, parsed from arrays or single strings.
+    description: One row per customer and contracted service.
     columns:
-      - name: customer_id
-        description: Reference to the customer in mobile_customers
+      - name: customer_sk
+        description: Reference to the customer in silver_mobile_customers
       - name: service
-        description: Contracted service by the customer (e.g., SMS, VOICE, INTERNATIONAL)
+        description: Contracted service by the customer (DATA, INTERNATIONAL, ROAMING, SMS, VOICE)
+
+  - name: silver_cities
+    description: Unique locations identified by city
+    columns:
+      - name: city_sk
+        description: Surrogate key
+        tests:
+          - unique
+          - not_null
+      - name: name
+        description: City name
+      - name: country
+        description: ISO-3 country code
+      - name: latitude
+        description: city's latitude
+      - name: longitude
+        description: city's longitude
 
 sources:
   - name: bronze
     schema: bronze # The schema where Airflow loads the raw table
     tables:
-      - name: mobile_customers
+      - name: bronze_mobile_customers
