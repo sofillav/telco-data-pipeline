@@ -9,71 +9,130 @@ models:
     columns:
       - name: customer_sk
         description: Surrogate key
+        tests:
+          - unique
+          - not_null
 
       - name: first_name
         description: Customer's first name
+
       - name: last_name
         description: Customer's last name
+
       - name: email
         description: Customer's email address
+
       - name: phone_number
         description: Customer's phone number
+        tests:
+          - not_null
+
       - name: age
-        description: Customer's age
+        description: Customer's age (expected to be between 0 and 110, or null if unknown/nva
 
       - name: city_sk
         description: Foreign key referencing silver_cities table
+        tests:
+          - not_null
+          - relationships:
+              to: ref('silver_cities')
+              field: city_sk
+
       - name: country_raw
-        description: Original country extracted from raw JSON. May not be consistent with the customer's city.
+        description: Original country extracted from raw JSON.
 
       - name: operator
-        description: Mobile operator associated with the customer (Claro, Movistar, Tigo, WOM)
+        description: Mobile operator
+        tests:
+          - accepted_values:
+              values: ['Claro', 'Movistar', 'Tigo', 'WOM']
+              config:
+                severity: warn
+
       - name: plan_type
-        description: Type of mobile plan (control, pospago, prepago)
+        description: Type of mobile plan
+        tests:
+          - accepted_values:
+              values: ['control', 'pospago', 'prepago']
+              config:
+                severity: warn
+
       - name: monthly_data_gb
         description: Monthly data allowance in gigabytes
+
       - name: data_gb_usage_current_month
         description: Data usage in the current month (in GB)
+
       - name: monthly_bill_usd
         description: Monthly bill amount in USD
 
       - name: registration_date
-        description: Date when the customer registered (parsed from raw string formats)
+        description: Date when the customer registered
+
       - name: last_payment_date
         description: Date of most recent payment
 
       - name: status
-        description: Customer status (active, inactive, invalid, suspended, valid)
+        description: Customer status
+        tests:
+          - accepted_values:
+              values: ['active', 'inactive', 'suspended', 'valid', 'invalid']
+              config:
+                severity: warn
 
       - name: device_brand
-        description: Brand of the customer's device (Apple, HUAWEI, Samsung, Xiaomi)
+        description: Brand of the customer's device
+
       - name: device_model
         description: Model of the customer's device
 
       - name: credit_limit
         description: Credit limit assigned to the customer
+
       - name: credit_score
-        description: Numerical credit score of the customer
+        description: Numerical credit score of the customer (between 300 and 850)
 
   - name: silver_payment_history
-    description: Flattened payment history records for each customer, parsed from JSON arrays or strings.
+    description: Flattened payment history records for each customer
     columns:
       - name: customer_sk
-        description: Reference to the customer in silver_mobile_customers
-      - name: payment_date
+        description: Reference to the customer
+        tests:
+          - relationships:
+              to: ref('silver_mobile_customers')
+              field: customer_sk
+
+      - name: date
         description: Date of the payment attempt
-      - name: payment_status
-        description: Status of the payment (failed, late, paid, pending)
-      - name: payment_amount
-        description: Payment amount in USD, null if unknown or unparsable
+
+      - name: status
+        description: Status of the payment
+        tests:
+          - accepted_values:
+              values: ['failed', 'late', 'paid', 'pending']
+              config:
+                severity: warn
+
+      - name: amount
+        description: Payment amount in USD (nonnegative)
 
   - name: silver_contracted_services
-    description: One row per customer and contracted service.
+    description: One row per customer and contracted service
     columns:
       - name: customer_sk
-        description: Reference to the customer in silver_mobile_customers
+        description: Reference to the customer
+        tests:
+          - relationships:
+              to: ref('silver_mobile_customers')
+              field: customer_sk
+
       - name: service
-        description: Contracted service by the customer (DATA, INTERNATIONAL, ROAMING, SMS, VOICE)
+        description: Contracted service
+        tests:
+          - accepted_values:
+              values: ['DATA', 'INTERNATIONAL', 'ROAMING', 'SMS', 'VOICE']
+              config:
+                severity: warn
 
   - name: silver_cities
     description: Unique locations identified by city
@@ -83,14 +142,22 @@ models:
         tests:
           - unique
           - not_null
+
       - name: name
         description: City name
+        tests:
+          - not_null
+
       - name: country
         description: ISO-3 country code
+        tests:
+          - not_null
+
       - name: latitude
-        description: city's latitude
+        description: City's latitude
+
       - name: longitude
-        description: city's longitude
+        description: City's longitude
 
 sources:
   - name: bronze
