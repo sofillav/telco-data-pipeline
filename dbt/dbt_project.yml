@@ -27,6 +27,6 @@ models:
       +materialized: table
       +schema: gold
 
-seeds:
-  qversity:
-    +schema: raw
+# seeds:
+  # qversity:
+    # +schema: raw
