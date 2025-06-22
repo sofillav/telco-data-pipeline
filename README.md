@@ -276,15 +276,15 @@ This DAG will:
 
 ## Using pgAdmin
 
-To see the created tables in pgAdmin follow the steps below.
+To explore the created tables visually with pgAdmin, follow the steps below:
 
 1. Visit: http://localhost:5050
 
 2. Login
 
-   - Username: admin@admin.com
+   - Username: `admin@admin.com`
 
-   - Password: admin
+   - Password: `admin`
 
 3. Register your Postgres server
 
@@ -292,23 +292,23 @@ To see the created tables in pgAdmin follow the steps below.
 
    - Go to the *General* tab:
 
-      - Name: any name (e.g., Qversity Postgres)
+      - Name: any name (e.g., `Qversity Postgres`)
 
    - Go to the  *Connection* tab:
 
-      -  Host name/address: postgres (this is the Docker service name)
+      -  Host name/address: `postgres` (this is the Docker service name)
 
-      -  Port: 5432
+      -  Port: `5432`
 
-      -  Username: qversity-admin
+      -  Username: `qversity-admin`
 
-      -  Password: qversity-admin
+      -  Password: `qversity-admin`
 
    - Click *Save*
 
 4. Open the Query Tool
 
-   - Expand the new server → Databases → qversity → Schemas (e.g., public_silver)
+   - In the left sidebar, expand: Servers → Databases → qversity → Schemas (e.g., `public_silver`)
 
    - Right-click the qversity database → *Query Tool*
 
