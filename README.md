@@ -223,7 +223,23 @@ To promote consistency and not repeat code, a set of reusable macros was created
 
 ### Gold stage
 
-Future stages will include aggregating/analyzing the data (Gold).
+In the Gold layer, a series of analytics-oriented tables were created based on the cleaned and structured data from the Silver layer. These tables are designed to answer specific business questions and support reporting, dashboards, and decision-making.
+
+The following Gold models were added:
+
+- `gold_customer_revenue_metrics`: Contains revenue-related attributes per customer, including monthly bill, operator, plan type, and geographic location. Used to compute ARPU, revenue distribution, and high-value segments.
+
+- `gold_customer_demographics`: Includes age, status, plan type, operator, and geographic information for all customers. Supports demographic breakdowns by plan, location, and operator.
+
+- `gold_device_preferences`: Summarizes device brand usage and preferences across countries, operators, and plan types.
+
+- `gold_contracted_services_analysis`: Explores the services contracted by each customer (e.g., DATA, SMS, VOICE), including common service combinations and revenue implications.
+
+- `gold_payment_behavior`: Merges payment history with credit score information to identify payment issues, pending payments, and correlations with credit score.
+
+- `gold_customer_trends`: Tracks customer acquisition over time by registration date and operator.
+
+These tables allow us to efficiently compute business metrics and generate insights directly from SQL models. All business questions and conclusions derived from these models are answered and documented in `docs/gold_report.md`.
 
 ## Participant
 
@@ -278,7 +294,7 @@ docker compose exec --user airflow airflow airflow dags trigger full_pipeline_da
 This DAG will:
 - Download the JSON file
 - Load it into PostgreSQL (bronze schema)
-- Run dbt models (silver layer)
+- Run dbt models (silver and gold layers)
 - Run dbt tests
 
 ## Run tests
