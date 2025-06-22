@@ -232,6 +232,8 @@ Future stages will include aggregating/analyzing the data (Gold).
 
 ## Quick Start
 
+These instructions were tested and successfully run on Ubuntu Linux.
+
 1. Clone the repo:
 
 ```bash
