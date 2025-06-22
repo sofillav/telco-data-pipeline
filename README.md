@@ -211,6 +211,8 @@ Some important transformations and cleaning decisions were applied:
 
 - Negative values filtering: fields such as `monthly_data_gb` and `monthly_bill_usd` are espected to be nonnegative numbers.are expected to contain non-negative numbers. Any values below zero were considered invalid and replaced with null. In total, fewer than 70 entries contained negative values across both fields.
 
+- Invalid dates handling: Dates later than `2025-06-12` (the raw data extraction date) were treated as invalid and set to null. A total of 101 entries had invalid date for `registration_date`, whereas all entries had valid date for `last_payment_date` and `payment_date`. This cleaning affected only the 2% of the data.
+
 - Standardized text fields: Names, cities, operators, plan types, statuses, and device brands were all normalized via dbt macros. This included trimming spaces, fixing casing, and handling missing values consistently. Although fields like `first_name` and `last_name` are not directly required for business analysis, a lightweight normalization step was applied (removes digits, trims spaces, capitalizes the first letter of each word) to prepare them for potential future use cases (e.g., customer communications or deduplication).
 
 
