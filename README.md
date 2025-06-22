@@ -201,7 +201,7 @@ Some important transformations and cleaning decisions were applied:
 
    - Instead, we introduced a surrogate key (`customer_sk`) based on a hash of multiple fields (`customer_id`, `operator`, `first_name` and `last_name`) to ensure uniqueness and allow joins.
 
-- Inconsistent city/country pairs in the raw data were resolved by treating the city as correct and matching it to a validated `silver_cities` table containing verified latitude, longitude, and ISO country codes. The original country provided in the raw data was preserved as `country_raw` in `silver_mobile_customers`, ensuring transparency and allowing analysts to explore or reconcile country information if needed.
+- Inconsistent city/country pairs in the raw data were resolved by treating the city as correct and matching it to a validated `silver_cities` table containing verified latitude, longitude, and ISO country codes. The original country value from the raw data was retained as `country_raw` in this silver layer to maintain traceability and support downstream quality assurance processes.
 
 - Surrogate Keys: Both customers and cities use surrogate keys (`customer_sk`, `city_sk`) for clean relational joins.
 
@@ -209,7 +209,7 @@ Some important transformations and cleaning decisions were applied:
 
 - Age filtering: Age values were converted to integers. Values outside the range 0–110 were treated as invalid and set to null. A total of 115 entries had invalid ages, and the final dataset includes only reasonable adult ages between 18 and 80.
 
-- Negative values filtering: fields such as `monthly_data_gb` and `monthly_bill_usd` are espected to be nonnegative numbers.are expected to contain non-negative numbers. Any values below zero were considered invalid and replaced with null. In total, fewer than 70 entries contained negative values across both fields.
+- Negative values filtering: fields such as `monthly_data_gb` and `monthly_bill_usd` are expected to contain non-negative numbers. Any values below zero were considered invalid and replaced with null. In total, fewer than 70 entries contained negative values across both fields.
 
 - Invalid dates handling: Dates later than `2025-06-12` (the raw data extraction date) were treated as invalid and set to null. A total of 101 entries had invalid date for `registration_date`, whereas all entries had valid date for `last_payment_date` and `payment_date`. This cleaning affected only the 2% of the data.
 
