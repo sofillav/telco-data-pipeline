@@ -239,10 +239,11 @@ git clone https://github.com/sofillav/qversity-data-2025-montevideo-sofiallavayo
 cd qversity-data-2025-montevideo-sofiallavayol
 ```
 
-2. Copy example environment file:
+2. Copy the example environment file and ensure `entrypoint.sh` is executable:
 
 ```bash
 cp env.example .env
+chmod +x entrypoint.sh
 ```
 
 ## Run pipeline
