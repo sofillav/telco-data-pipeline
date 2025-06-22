@@ -264,8 +264,8 @@ docker compose up -d
    - Using CLI commands:
 
 ```bash
-docker compose exec --user airflow airflow dags unpause full_pipeline_dag
-docker compose exec --user airflow airflow dags trigger full_pipeline_dag
+docker compose exec --user airflow airflow airflow dags unpause full_pipeline_dag
+docker compose exec --user airflow airflow airflow dags trigger full_pipeline_dag
 ```
 
 This DAG will:
@@ -273,3 +273,47 @@ This DAG will:
 - Load it into PostgreSQL (bronze schema)
 - Run dbt models (silver layer)
 - Run dbt tests
+
+## Using pgAdmin
+
+To see the created tables in pgAdmin follow the steps below.
+
+1. Visit: http://localhost:5050
+
+2. Login
+
+   - Username: admin@admin.com
+
+   - Password: admin
+
+3. Register your Postgres server
+
+   - Clic on *Add New Server*.
+
+   - Go to the *General* tab:
+
+      - Name: any name (e.g., Qversity Postgres)
+
+   - Go to the  *Connection* tab:
+
+      -  Host name/address: postgres (this is the Docker service name)
+
+      -  Port: 5432
+
+      -  Username: qversity-admin
+
+      -  Password: qversity-admin
+
+   - Click *Save*
+
+4. Open the Query Tool
+
+   - Expand the new server → Databases → qversity → Schemas (e.g., public_silver)
+
+   - Right-click the qversity database → *Query Tool*
+
+   - Type and run SQL queries like:
+
+```sql
+SELECT * FROM public_silver.silver_mobile_customers LIMIT 10;
+```
