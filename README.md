@@ -243,6 +243,8 @@ cd qversity-data-2025-montevideo-sofiallavayol
 cp env.example .env
 ```
 
+## Run pipeline
+
 3. Start the containers:
 
 ```bash
@@ -273,6 +275,22 @@ This DAG will:
 - Load it into PostgreSQL (bronze schema)
 - Run dbt models (silver layer)
 - Run dbt tests
+
+## Run tests
+
+The pipeline includes a task that automatically runs `dbt test` to validate the models. You can view the test results in the logs of the corresponding task from the Airflow UI.
+
+To run the tests manually, use the following commands:
+
+```bash
+docker compose exec dbt dbt test
+```
+
+or
+
+```bash
+docker compose exec dbt dbt test --models <model_name>
+```
 
 ## Using pgAdmin
 
