@@ -47,7 +47,7 @@ extracted as (
         {{ nonnegative_numeric("json_data ->> 'monthly_data_gb'") }} as monthly_data_gb,
 
         -- Convert current month data usage to numeric if valid (> 0), else null
-        {{ nonnegative_numeric("json_data ->> 'data_gb_usage_current_month'") }} as data_gb_usage_current_month,
+        {{ nonnegative_numeric("json_data ->> 'data_usage_current_month'") }} as data_usage_current_month,
 
         -- Convert monthly bill amount to numeric USD value if valid (> 0), else null
         {{ nonnegative_numeric("json_data ->> 'monthly_bill_usd'") }} as monthly_bill_usd,
@@ -98,7 +98,7 @@ select
     e.operator,
     e.plan_type,
     e.monthly_data_gb,
-    e.data_gb_usage_current_month,
+    e.data_usage_current_month,
     e.monthly_bill_usd,
 
     e.registration_date,

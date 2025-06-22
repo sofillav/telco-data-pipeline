@@ -60,7 +60,7 @@ models:
       - name: monthly_data_gb
         description: Monthly data allowance in gigabytes
 
-      - name: data_gb_usage_current_month
+      - name: data_usage_current_month
         description: Data usage in the current month (in GB)
 
       - name: monthly_bill_usd
