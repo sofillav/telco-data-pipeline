@@ -63,14 +63,14 @@ with DAG(
     )
 
     dbt_run = BashOperator(
-        task_id='silver_dbt_run',
-        bash_command='cd /dbt && dbt run --models silver'
+        task_id='dbt_run',
+        bash_command='cd /dbt && dbt run'
 
     )
 
     dbt_test = BashOperator(
-        task_id='silver_dbt_test',
-        bash_command='cd /dbt && dbt test --models silver'
+        task_id='dbt_test',
+        bash_command='cd /dbt && dbt test'
     )   
 
     download >> load >> dbt_run >> dbt_test
