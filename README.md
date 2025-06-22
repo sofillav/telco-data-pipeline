@@ -237,29 +237,39 @@ git clone https://github.com/sofillav/qversity-data-2025-montevideo-sofiallavayo
 cd qversity-data-2025-montevideo-sofiallavayol
 ```
 
-2. Give the `data` and `logs` directories the proper permissions so Airflow works correctly:
+2. Copy example environment file:
 
 ```bash
-mkdir -p logs
-chmod -R 777 data logs
+cp env.example .env
 ```
 
-3. Start the pipeline environment:
+3. Start the containers:
 
 ```bash
 docker compose up -d
 ```
 
-## Run pipeline
+4. Wait until Airflow UI is available at http://localhost:8080
 
-Visit http://localhost:8080 (admin/admin) and trigger the `bronze_ingest_dag`. From the Airflow UI:
+5. Login with:
 
-- Locate the DAG named `bronze_ingest_dag`.
-- Trigger it manually.
-- The DAG will:
-   - Download the `mobile_customers_messy_dataset.json` file from the S3 bucket.
-   - Load it into the PostgreSQL database under `bronze.bronze_mobile_customers`.
+   - Username: `admin`
 
-## Run tests
+   - Password: `admin`
 
-Will be added in later stages.
+6. Unpause the DAG `full_pipeline_dag` and trigger it:
+
+   - From the UI, or
+
+   - Using CLI commands:
+
+```bash
+docker compose exec --user airflow airflow dags unpause full_pipeline_dag
+docker compose exec --user airflow airflow dags trigger full_pipeline_dag
+```
+
+This DAG will:
+- Download the JSON file
+- Load it into PostgreSQL (bronze schema)
+- Run dbt models (silver layer)
+- Run dbt tests
