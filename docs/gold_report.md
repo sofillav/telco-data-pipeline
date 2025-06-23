@@ -111,7 +111,13 @@ Colombia accounts for more than half of the customer base, indicating it is the 
 The table was obtained with the following query:
 
 ```sql
-
+select 
+    country,
+    count(customer_sk) as total_customers,
+    round(100.0 * count(customer_sk) / sum(count(customer_sk)) over (), 2) as percentage
+from public_gold.gold_customer_demographics
+group by country
+order by total_customers desc;
 ```
 
 ---
@@ -138,8 +144,6 @@ The relatively high proportion of Seniors suggests that these mobile plans works
 | pospago   | Senior    |             535 |          32.33 |
 | pospago   | Young     |             300 |          18.13 |
 | pospago   | Unknown   |              44 |           2.66 |
-
-
 
 | Plan Type | Age Group | Total Customers | Percentage (%) |
 |-----------|-----------|----------------:|---------------:|
@@ -304,7 +308,7 @@ order by country, operator, total_customers desc;
 
 ## 7. How are customers distributed across different operators?
 
-The customer base is almost evenly split among the four main operators.  The market appears competitive and balanced, with no single operator dominating. This suggests that customers have relatively equal preferences or access across these providers, potentially increasing the importance of service differentiation and customer experience for gaining market share.
+The customer base is almost evenly split among the four main operators.  The market appears competitive and balanced, with no single operator dominating. This suggests that customers have relatively equal preferences or access across these providers. This shows importance of service differentiation and customer experience for gaining market share.
 
 | Operator | Total Customers | Percentage |
 |----------|-----------------|------------|
@@ -317,7 +321,13 @@ The customer base is almost evenly split among the four main operators.  The mar
 The table was obtained with the following query:
 
 ```sql
-
+select
+    operator,
+    count(*) as total_customers,
+    round(100.0 * count(*) / sum(count(*)) over (), 2) as percentage
+from public_gold.gold_customer_demographics
+group by operator
+order by total_customers desc;
 ```
 
 
@@ -339,7 +349,13 @@ Nearly half of the customers fall into the "Poor" credit score group. The remain
 The table was obtained with the following query:
 
 ```sql
-
+select
+    credit_score_group,
+    count(*) as total_customers,
+    round(100.0 * count(*) / sum(count(*)) over (), 2) as percentage
+from public_gold.gold_customer_revenue_metrics
+group by credit_score_group
+order by total_customers desc;
 ```
 
 ---
