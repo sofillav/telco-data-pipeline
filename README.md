@@ -1,4 +1,4 @@
-# Qversity Project
+# Telco Analytics Pipeline
 
 A data local data platform using Docker Compose with Airflow, PostgreSQL, dbt, and Python.
 
@@ -20,6 +20,8 @@ This project implements a Bronze-Silver-Gold data lakehouse architecture:
 │   │   ├── bronze/       # Raw data staging
 │   │   ├── silver/       # Cleaned data
 │   │   └── gold/         # Business analytics
+├── docs/                 # Documentation
+│   ├── gold_report.md    # Business questions
 │   ├── tests/            # dbt tests
 │   ├── dbt_project.yml   # dbt configuration
 │   └── profiles.yml      # Database connections
@@ -35,133 +37,11 @@ This project implements a Bronze-Silver-Gold data lakehouse architecture:
 └── README.md             # This file
 ```
 
-## Quick Start
 
-### Prerequisites
-- Docker and Docker Compose installed
-- At least 4GB RAM available
+## Owner
 
-### Setup
-
-1. **Clone and setup environment**:
-```bash
-# Copy environment template
-cp env.example .env
-```
-
-2. **Manual setup** (alternative):
-```bash
-# Start services
-docker compose up -d
-```
-
-## Access Points
-
-- **Airflow UI**: http://localhost:8080 (admin/admin)
-- **PostgreSQL**: localhost:5432 (airflow/airflow)
-
-## Common Commands
-
-### Airflow
-```bash
-# View Airflow logs
-docker compose logs -f airflow
-
-# Trigger a DAG manually
-docker compose exec airflow airflow dags trigger hello_world_dag
-```
-
-### dbt
-```bash
-# Enter dbt container
-docker compose exec dbt bash
-
-# Run all models
-dbt run
-
-# Run specific layer
-dbt run --models bronze
-dbt run --models silver
-dbt run --models gold
-
-# Test data quality
-dbt test
-
-# Generate documentation
-dbt docs generate
-dbt docs serve
-```
-
-### Database Access
-```bash
-# Connect to PostgreSQL
-docker compose exec postgres psql -U qversity-admin -d qversity
-
-# View created schemas
-\dn
-
-# View tables in bronze schema
-\dt bronze.*
-```
-
-## Testing
-
-```bash
-# Run dbt tests
-docker compose exec dbt dbt test
-
-# Run specific test
-docker compose exec dbt dbt test --models test_customer_email_validity
-```
-
-## Development
-
-### Adding New DAGs
-1. Create Python files in `dags/`
-2. DAGs will be automatically picked up by Airflow
-
-### Adding dbt Models
-1. Create SQL files in appropriate layer directories:
-   - `dbt/models/bronze/` for raw data
-   - `dbt/models/silver/` for cleaned data
-   - `dbt/models/gold/` for analytics
-
-### Environment Configuration
-- Copy `env.example` to `.env` and customize
-- Modify `docker compose.yml` for additional services
-
-## Monitoring
-
-```bash
-# View all service logs
-docker compose logs -f
-
-# View specific service logs
-docker compose logs -f airflow
-docker compose logs -f dbt
-docker compose logs -f postgres
-
-# Check service status
-docker compose ps
-```
-
-## Cleanup
-
-```bash
-# Stop services
-docker compose down
-
-# Remove volumes (⚠️ deletes all data)
-docker compose down -v
-
-# Remove images
-docker compose down --rmi all
-```
-
-
-
-
-
+- **Name**: Sofía Llavayol
+- **Email**: so.llavayol@gmail.com
 
 
 ## Overview
@@ -241,12 +121,13 @@ The following Gold models were added:
 
 These tables allow us to efficiently compute business metrics and generate insights directly from SQL models. All business questions and conclusions derived from these models are answered and documented in `docs/gold_report.md`.
 
-## Participant
-
-- **Name**: Sofía Llavayol
-- **Email**: so.llavayol@gmail.com
-
 ## Quick Start
+
+### Prerequisites
+- Docker and Docker Compose installed
+- At least 4GB RAM available
+
+### Setup
 
 These instructions were tested and successfully run on Ubuntu Linux.
 
@@ -356,3 +237,92 @@ To explore the created tables visually with pgAdmin, follow the steps below:
 ```sql
 SELECT * FROM public_silver.silver_mobile_customers LIMIT 10;
 ```
+
+## Common Commands
+
+### Access Points
+
+- **Airflow UI**: http://localhost:8080 (`admin`/`admin`)
+- **Airflow UI**: http://localhost:5050 (`admin@admin.com`/`admin`)
+- **PostgreSQL**: localhost:5432 (`airflow`/`airflow`)
+
+
+### Airflow
+```bash
+# View Airflow logs
+docker compose logs -f airflow
+
+# Trigger a DAG manually
+docker compose exec airflow airflow dags trigger hello_world_dag
+```
+
+### dbt
+```bash
+# Enter dbt container
+docker compose exec dbt bash
+
+# Run all models
+dbt run
+
+# Run specific layer
+dbt run --models public_silver
+dbt run --models public_gold
+
+# Test data quality
+dbt test
+
+# Generate documentation
+dbt docs generate
+dbt docs serve
+```
+
+### Database Access
+```bash
+# Connect to PostgreSQL
+docker compose exec postgres psql -U qversity-admin -d qversity
+
+# View created schemas
+\dn
+
+# View tables in bronze schema
+\dt bronze.*
+```
+
+### Testing
+
+```bash
+# Run dbt tests
+docker compose exec dbt dbt test
+
+# Run specific test
+docker compose exec dbt dbt test --models test_customer_email_validity
+```
+
+### Monitoring
+
+```bash
+# View all service logs
+docker compose logs -f
+
+# View specific service logs
+docker compose logs -f airflow
+docker compose logs -f dbt
+docker compose logs -f postgres
+
+# Check service status
+docker compose ps
+```
+
+### Cleanup
+
+```bash
+# Stop services
+docker compose down
+
+# Remove volumes (⚠️ deletes all data)
+docker compose down -v
+
+# Remove images
+docker compose down --rmi all
+```
+
