@@ -12,6 +12,12 @@
 select
     mc.customer_sk,
     mc.age,
+    case
+        when mc.age is null then 'Unknown'
+        when mc.age < 30 then 'Young'
+        when mc.age between 30 and 59 then 'Adult'
+        when mc.age >= 60 then 'Senior'
+    end as age_group,
     mc.plan_type,
     mc.operator,
     mc.status,
@@ -19,4 +25,5 @@ select
     ci.country
 from {{ ref('silver_mobile_customers') }} mc
 left join {{ ref('silver_cities') }} ci
-on mc.city_sk = ci.city_sk
+    on mc.city_sk = ci.city_sk
+
