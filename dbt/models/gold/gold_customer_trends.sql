@@ -6,6 +6,8 @@
 select
     customer_sk,
     operator,
-    registration_date
+    date_part('year', registration_date) as registration_year,
+    date_part('month', registration_date) as registration_month
 from {{ ref('silver_mobile_customers') }}
 where registration_date is not null
+
