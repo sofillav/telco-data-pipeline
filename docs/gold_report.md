@@ -8,15 +8,11 @@ This report contains the business insights extracted from the processed data in 
 
 ARPU is calculated as the average of `monthly_bill_usd` per plan type. The values across plan types very are similar.
 
-plan_type | average_revenue_usd 
-
-----------+---------------------
-
-prepago   |               79.50
-
-pospago   |               78.51
-
-control   |               78.14
+| Plan Type | Average Revenue (USD) |
+|-----------|----------------------:|
+| prepago   |                 79.50 |
+| pospago   |                 78.51 |
+| control   |                 78.14 |
 
 
 
@@ -26,19 +22,14 @@ control   |               78.14
 
 Revenue is grouped by country using the sum of `monthly_bill_usd`. The table below shows total revenue and each country's share of the overall revenue.
 
- country | total_revenue_usd | revenue_percentage 
+| Country | Total Revenue (USD) | Revenue Percentage (%) |
+|---------|--------------------:|----------------------:|
+| COL     |           211,841.89 |                 55.25 |
+| PER     |            57,102.45 |                 14.89 |
+| ARG     |            48,516.23 |                 12.65 |
+| MEX     |            40,592.96 |                 10.59 |
+| CHL     |            25,361.70 |                  6.61 |
 
----------+-------------------+--------------------
-
- COL     |         211841.89 |              55.25
-
- PER     |          57102.45 |              14.89
-
- ARG     |          48516.23 |              12.65
-
- MEX     |          40592.96 |              10.59
-
- CHL     |          25361.70 |               6.61
 
 Colombia dominates the revenue share, contributing over 55% of the total revenue. Peru and Argentina follow, but with significantly smaller shares. This results could guide marketing strategies or suggest where to prioritize infrastructure and customer retention efforts.
 
@@ -48,47 +39,34 @@ Colombia dominates the revenue share, contributing over 55% of the total revenue
 
 We segment customers by plan type, age group, and credit score group, and aggregate total monthly revenue (`monthly_bill_usd`) to identify the most valuable segments.
 
- plan_type | total_revenue_usd | revenue_percentage 
+| Plan Type | Total Revenue (USD) | Revenue Percentage (%) |
+|-----------|--------------------:|----------------------:|
+| control   |          128,547.07 |                 33.53 |
+| prepago   |          128,066.80 |                 33.40 |
+| pospago   |          126,801.36 |                 33.07 |
 
------------+-------------------+--------------------
-
- control   |         128547.07 |              33.53
-
- prepago   |         128066.80 |              33.40
-
- pospago   |         126801.36 |              33.07
 
 Revenue is evenly distributed across plan types, with each contributing roughly a third of total revenue. This suggests all plan types are economically significant, and customer acquisition or retention efforts should not focus on a single plan exclusively.
 
- age_group | total_revenue_usd | revenue_percentage 
+| Age Group | Total Revenue (USD) | Revenue Percentage (%) |
+|-----------|--------------------:|----------------------:|
+| Adult     |          177,613.43 |                 46.32 |
+| Senior    |          125,264.84 |                 32.67 |
+| Young     |           72,433.31 |                 18.89 |
+| Unknown   |            8,103.65 |                  2.11 |
 
------------+-------------------+--------------------
-
- Adult     |         177613.43 |              46.32
-
- Senior    |         125264.84 |              32.67
-
- Young     |          72433.31 |              18.89
-
- Unknown   |           8103.65 |               2.11
 
 Adults (ages 36–60) are the most valuable age segment, generating nearly half the total revenue. Seniors (60+) also contribute a large share, while Young customers (18–35) represent under 20%.
 
- credit_score_group | total_revenue_usd | revenue_percentage 
+| Credit Score Group | Total Revenue (USD) | Revenue Percentage (%) |
+|--------------------|--------------------:|----------------------:|
+| Very Good          |             42,829.49 |                 11.17 |
+| Unknown            |              3,501.28 |                  0.91 |
+| Poor               |            185,826.01 |                 48.47 |
+| Good               |             48,222.04 |                 12.58 |
+| Fair               |             66,265.48 |                 17.28 |
+| Excellent          |             36,770.93 |                  9.59 |
 
---------------------+-------------------+--------------------
-
- Very Good          |          42829.49 |              11.17
-
- Unknown            |           3501.28 |               0.91
-
- Poor               |         185826.01 |              48.47
-
- Good               |          48222.04 |              12.58
-
- Fair               |          66265.48 |              17.28
-
- Excellent          |          36770.93 |               9.59
 
 Customers with poor credit scores contribute nearly half of the total revenue. This may indicate higher spending or a larger volume of such customers (probably the second one).
 
@@ -100,19 +78,14 @@ We group customers by country to understand regional distribution.
 
 Colombia accounts for more than half of the customer base, indicating it is the largest market in the dataset. Peru and Argentina follow, but with significantly smaller shares. These proportions can guide region-specific strategies or marketing focus.
 
- country | total_customers | percentage 
+| Country | Total Customers | Percentage (%) |
+|---------|----------------:|---------------:|
+| COL     |            2,747 |          54.94 |
+| PER     |              739 |          14.78 |
+| ARG     |              638 |          12.76 |
+| MEX     |              524 |          10.48 |
+| CHL     |              352 |           7.04 |
 
----------+-----------------+------------
-
- COL     |            2747 |      54.94
-
- PER     |             739 |      14.78
-
- ARG     |             638 |      12.76
-
- MEX     |             524 |      10.48
-
- CHL     |             352 |       7.04
 
 ---
 
@@ -124,42 +97,30 @@ The customer base for all plan types is quite similar in age structure, indicati
 
 The relatively high proportion of Seniors suggests that these mobile plans works well to older adults, which could influence marketing or service design.
 
- plan_type | age_group | total_customers | percentage 
-
------------+-----------+-----------------+------------
-
- control   | Adult     |             754 |      44.62
-
- control   | Senior    |             569 |      33.67
-
- control   | Young     |             321 |      18.99
-
- control   | Unknown   |              46 |       2.72
-
- plan_type | age_group | total_customers | percentage 
-
------------+-----------+-----------------+------------
-
- pospago   | Adult     |             776 |      46.89
-
- pospago   | Senior    |             535 |      32.33
-
- pospago   | Young     |             300 |      18.13
-
- pospago   | Unknown   |              44 |       2.66
+| Plan Type | Age Group | Total Customers | Percentage (%) |
+|-----------|-----------|----------------:|---------------:|
+| control   | Adult     |             754 |          44.62 |
+| control   | Senior    |             569 |          33.67 |
+| control   | Young     |             321 |          18.99 |
+| control   | Unknown   |              46 |           2.72 |
 
 
- plan_type | age_group | total_customers | percentage 
+| Plan Type | Age Group | Total Customers | Percentage (%) |
+|-----------|-----------|----------------:|---------------:|
+| pospago   | Adult     |             776 |          46.89 |
+| pospago   | Senior    |             535 |          32.33 |
+| pospago   | Young     |             300 |          18.13 |
+| pospago   | Unknown   |              44 |           2.66 |
 
------------+-----------+-----------------+------------
 
- prepago   | Adult     |             750 |      45.32
 
- prepago   | Senior    |             577 |      34.86
+| Plan Type | Age Group | Total Customers | Percentage (%) |
+|-----------|-----------|----------------:|---------------:|
+| prepago   | Adult     |             750 |          45.32 |
+| prepago   | Senior    |             577 |          34.86 |
+| prepago   | Young     |             303 |          18.31 |
+| prepago   | Unknown   |              25 |           1.51 |
 
- prepago   | Young     |             303 |      18.31
-
- prepago   | Unknown   |              25 |       1.51
 
 
 
@@ -167,146 +128,86 @@ The relatively high proportion of Seniors suggests that these mobile plans works
 
 ## 6. What is the age distribution by country and operator?
 
-country | operator | age_group | total_customers 
+| Country | Operator | Age Group | Total Customers |
+|---------|----------|-----------|----------------:|
+| ARG     | Claro    | Adult     |              71 |
+| ARG     | Claro    | Senior    |              59 |
+| ARG     | Claro    | Young     |              32 |
+| ARG     | Movistar | Adult     |              73 |
+| ARG     | Movistar | Senior    |              45 |
+| ARG     | Movistar | Young     |              26 |
+| ARG     | Tigo     | Adult     |              75 |
+| ARG     | Tigo     | Senior    |              52 |
+| ARG     | Tigo     | Young     |              33 |
+| ARG     | WOM      | Adult     |              82 |
+| ARG     | WOM      | Senior    |              51 |
+| ARG     | WOM      | Young     |              27 |
+
+
+
+| Country | Operator | Age Group | Total Customers |
+|---------|----------|-----------|----------------:|
+| CHL     | Claro    | Adult     |              41 |
+| CHL     | Claro    | Senior    |              28 |
+| CHL     | Claro    | Young     |              14 |
+| CHL     | Movistar | Adult     |              31 |
+| CHL     | Movistar | Senior    |              31 |
+| CHL     | Movistar | Young     |              20 |
+| CHL     | Tigo     | Adult     |              37 |
+| CHL     | Tigo     | Senior    |              33 |
+| CHL     | Tigo     | Young     |              17 |
+| CHL     | WOM      | Adult     |              44 |
+| CHL     | WOM      | Senior    |              33 |
+| CHL     | WOM      | Young     |              13 |
+
+
+| Country | Operator | Age Group | Total Customers |
+|---------|----------|-----------|----------------:|
+| COL     | Claro    | Adult     |             305 |
+| COL     | Claro    | Senior    |             240 |
+| COL     | Claro    | Young     |             139 |
+| COL     | Movistar | Adult     |             314 |
+| COL     | Movistar | Senior    |             218 |
+| COL     | Movistar | Young     |             117 |
+| COL     | Tigo     | Adult     |             343 |
+| COL     | Tigo     | Senior    |             220 |
+| COL     | Tigo     | Young     |             119 |
+| COL     | WOM      | Adult     |             285 |
+| COL     | WOM      | Senior    |             249 |
+| COL     | WOM      | Young     |             140 |
+
+
+| Country | Operator | Age Group | Total Customers |
+|---------|----------|-----------|----------------:|
+| MEX     | Claro    | Adult     |              70 |
+| MEX     | Claro    | Senior    |              43 |
+| MEX     | Claro    | Young     |              18 |
+| MEX     | Movistar | Adult     |              52 |
+| MEX     | Movistar | Senior    |              36 |
+| MEX     | Movistar | Young     |              20 |
+| MEX     | Tigo     | Adult     |              57 |
+| MEX     | Tigo     | Senior    |              53 |
+| MEX     | Tigo     | Young     |              27 |
+| MEX     | WOM      | Adult     |              64 |
+| MEX     | WOM      | Senior    |              41 |
+| MEX     | WOM      | Young     |              29 |
+
+
+| Country | Operator | Age Group | Total Customers |
+|---------|----------|-----------|----------------:|
+| PER     | Claro    | Adult     |              94 |
+| PER     | Claro    | Senior    |              60 |
+| PER     | Claro    | Young     |              36 |
+| PER     | Movistar | Senior    |              72 |
+| PER     | Movistar | Adult     |              70 |
+| PER     | Movistar | Young     |              34 |
+| PER     | Tigo     | Adult     |              87 |
+| PER     | Tigo     | Senior    |              51 |
+| PER     | Tigo     | Young     |              32 |
+| PER     | WOM      | Adult     |              85 |
+| PER     | WOM      | Senior    |              66 |
+| PER     | WOM      | Young     |              31 |
 
----------+----------+----------+-----------------
-
-ARG     | Claro    | Adult     |              71
-
-ARG     | Claro    | Senior    |              59
-
-ARG     | Claro    | Young     |              32
-
-ARG     | Movistar | Adult     |              73
-
-ARG     | Movistar | Senior    |              45
-
-ARG     | Movistar | Young     |              26
-
-ARG     | Tigo     | Adult     |              75
-
-ARG     | Tigo     | Senior    |              52
-
-ARG     | Tigo     | Young     |              33
-
-ARG     | WOM      | Adult     |              82
-
-ARG     | WOM      | Senior    |              51
-
-ARG     | WOM      | Young     |              27
-
-
-country | operator | age_group | total_customers 
-
----------+----------+----------+-----------------
-
-CHL     | Claro    | Adult     |              41
-
-CHL     | Claro    | Senior    |              28
-
-CHL     | Claro    | Young     |              14
-
-CHL     | Movistar | Adult     |              31
-
-CHL     | Movistar | Senior    |              31
-
-CHL     | Movistar | Young     |              20
-
-CHL     | Tigo     | Adult     |              37
-
-CHL     | Tigo     | Senior    |              33
-
-CHL     | Tigo     | Young     |              17
-
-CHL     | WOM      | Adult     |              44
-
-CHL     | WOM      | Senior    |              33
-
-CHL     | WOM      | Young     |              13
-
-country | operator | age_group | total_customers 
-
----------+----------+----------+-----------------
-
-COL     | Claro    | Adult     |             305
-
-COL     | Claro    | Senior    |             240
-
-COL     | Claro    | Young     |             139
-
-COL     | Movistar | Adult     |             314
-
-COL     | Movistar | Senior    |             218
-
-COL     | Movistar | Young     |             117
-
-COL     | Tigo     | Adult     |             343
-
-COL     | Tigo     | Senior    |             220
-
-COL     | Tigo     | Young     |             119
-
-COL     | WOM      | Adult     |             285
-
-COL     | WOM      | Senior    |             249
-
-COL     | WOM      | Young     |             140
-
-country | operator | age_group | total_customers 
-
----------+----------+----------+-----------------
-
-MEX     | Claro    | Adult     |              70
-
-MEX     | Claro    | Senior    |              43
-
-MEX     | Claro    | Young     |              18
-
-MEX     | Movistar | Adult     |              52
-
-MEX     | Movistar | Senior    |              36
-
-MEX     | Movistar | Young     |              20
-
-MEX     | Tigo     | Adult     |              57
-
-MEX     | Tigo     | Senior    |              53
-
-MEX     | Tigo     | Young     |              27
-
-MEX     | WOM      | Adult     |              64
-
-MEX     | WOM      | Senior    |              41
-
-MEX     | WOM      | Young     |              29
-
-country | operator | age_group | total_customers 
-
----------+----------+----------+-----------------
-
-PER     | Claro    | Adult     |              94
-
-PER     | Claro    | Senior    |              60
-
-PER     | Claro    | Young     |              36
-
-PER     | Movistar | Senior    |              72
-
-PER     | Movistar | Adult     |              70
-
-PER     | Movistar | Young     |              34
-
-PER     | Tigo     | Adult     |              87
-
-PER     | Tigo     | Senior    |              51
-
-PER     | Tigo     | Young     |              32
-
-PER     | WOM      | Adult     |              85
-
-PER     | WOM      | Senior    |              66
-
-PER     | WOM      | Young     |              31
 
 
 ---
@@ -315,17 +216,13 @@ PER     | WOM      | Young     |              31
 
 The customer base is almost evenly split among the four main operators.  The market appears competitive and balanced, with no single operator dominating. This suggests that customers have relatively equal preferences or access across these providers, potentially increasing the importance of service differentiation and customer experience for gaining market share.
 
-operator | total_customers | percentage 
+| Operator | Total Customers | Percentage |
+|----------|-----------------|------------|
+| Claro    |            1280 |      25.60 |
+| WOM      |            1267 |      25.34 |
+| Tigo     |            1262 |      25.24 |
+| Movistar |            1191 |      23.82 |
 
-----------+-----------------+------------
-
-Claro    |            1280 |      25.60
-
-WOM      |            1267 |      25.34
-
-Tigo     |            1262 |      25.24
-
-Movistar |            1191 |      23.82
 
 
 
@@ -335,37 +232,27 @@ Movistar |            1191 |      23.82
 
 Nearly half of the customers fall into the "Poor" credit score group. The remaining customers are more evenly distributed across better credit score categories. This distribution can guide risk management and marketing strategies tailored to different credit profiles.
 
- credit_score_group | total_customers | percentage 
+| Credit Score Group | Total Customers | Percentage |
+|--------------------|-----------------|------------|
+| Poor               |            2373 |      48.72 |
+| Fair               |             828 |      17.00 |
+| Good               |             600 |      12.32 |
+| Very Good          |             550 |      11.29 |
+| Excellent          |             477 |       9.79 |
+| Unknown            |              43 |       0.88 |
 
---------------------+-----------------+------------
-
- Poor               |            2373 |      48.72
-
- Fair               |             828 |      17.00
-
- Good               |             600 |      12.32
-
- Very Good          |             550 |      11.29
-
- Excellent          |             477 |       9.79
-
- Unknown            |              43 |       0.88
 
 ---
 
 ## 9. What are the most popular device brands?
 
- device_brand | total_customers | percentage 
+| Device Brand | Total Customers | Percentage |
+|--------------|-----------------|------------|
+| Samsung      |            1260 |      25.20 |
+| Xiaomi       |            1250 |      25.00 |
+| Apple        |            1246 |      24.92 |
+| HUAWEI       |            1244 |      24.88 |
 
---------------+-----------------+------------
-
- Samsung      |            1260 |      25.20
-
- Xiaomi       |            1250 |      25.00
-
- Apple        |            1246 |      24.92
-
- HUAWEI       |            1244 |      24.88
 
 This balanced distribution suggests no single brand dominates the market, indicating diverse device preferences across the user base.
 
@@ -562,43 +449,33 @@ country | operator | device_brand | total_customers | percentage
 
 Device brand preferences are almost evenly distributed across all plan types.
 
- plan_type | device_brand | total_customers | percentage 
-
------------+--------------+-----------------+------------
-
- control   | Samsung      |             433 |      25.62
-
- control   | HUAWEI       |             432 |      25.56
-
- control   | Xiaomi       |             428 |      25.33
-
- control   | Apple        |             397 |      23.49
+| Plan Type | Device Brand | Total Customers | Percentage |
+|-----------|--------------|-----------------|------------|
+| control   | Samsung      |             433 |      25.62 |
+| control   | HUAWEI       |             432 |      25.56 |
+| control   | Xiaomi       |             428 |      25.33 |
+| control   | Apple        |             397 |      23.49 |
 
 
 
- plan_type | device_brand | total_customers | percentage 
 
------------+--------------+-----------------+------------
- pospago   | Apple        |             432 |      26.10
-
- pospago   | HUAWEI       |             414 |      25.02
-
- pospago   | Xiaomi       |             406 |      24.53
-
- pospago   | Samsung      |             403 |      24.35
+| Plan Type | Device Brand | Total Customers | Percentage |
+|-----------|--------------|-----------------|------------|
+| pospago   | Apple        |             432 |      26.10 |
+| pospago   | HUAWEI       |             414 |      25.02 |
+| pospago   | Xiaomi       |             406 |      24.53 |
+| pospago   | Samsung      |             403 |      24.35 |
 
 
 
- plan_type | device_brand | total_customers | percentage 
------------+--------------+-----------------+------------
 
- prepago   | Samsung      |             424 |      25.62
+| Plan Type | Device Brand | Total Customers | Percentage |
+|-----------|--------------|-----------------|------------|
+| prepago   | Samsung      |             424 |      25.62 |
+| prepago   | Apple        |             417 |      25.20 |
+| prepago   | Xiaomi       |             416 |      25.14 |
+| prepago   | HUAWEI       |             398 |      24.05 |
 
- prepago   | Apple        |             417 |      25.20
-
- prepago   | Xiaomi       |             416 |      25.14
-
- prepago   | HUAWEI       |             398 |      24.05
 
 
 ## 12. Which services are most commonly contracted?
