@@ -1,6 +1,6 @@
 # Telco Analytics Pipeline
 
-A data local data platform using Docker Compose with Airflow, PostgreSQL, dbt, and Python.
+A local data platform built with Docker Compose, featuring Airflow, PostgreSQL, dbt, and Python. This project was developed as the final assignment for the Qversity program, a hands-on academic initiative focused on Data & AI.
 
 ## Architecture
 
